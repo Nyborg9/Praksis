@@ -14,11 +14,15 @@ function setStatus(text) {
 }
 
 function bestMimeType() {
-  const candidates = [
-    'video/webm;codecs=vp9,opus',
-    'video/webm;codecs=vp8,opus',
-    'video/webm'
-  ];
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const candidates = isIOS ? 
+    ['video/mp4'] : // Use MP4 for iOS
+    [
+      'video/webm;codecs=vp9,opus',
+      'video/webm;codecs=vp8,opus',
+      'video/webm'
+    ];
+  
   for (const t of candidates) {
     if (MediaRecorder && MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) {
       return t;
