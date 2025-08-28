@@ -29,13 +29,13 @@ function bestMimeType() {
 
 async function startRecording() {
   try {
-    setStatus('Requesting permissions…');
+    setStatus('Spør etter tilatelser');
 
     // 1) Ask user to pick a screen/window/tab (video only).
     //    audio:false so we DO NOT capture system/tab audio. (Mic will come from getUserMedia.)
     screenStream = await navigator.mediaDevices.getDisplayMedia({
       video: { frameRate: 30 },
-      audio: true
+      audio: false
     });
 
     // 2) Ask for microphone (audio only, no webcam video).
@@ -50,7 +50,6 @@ async function startRecording() {
     // 3) Combine the single screen video track with the microphone audio track.
     const tracks = [
       screenStream.getVideoTracks()[0],
-      screenStream.getAudioTracks()[0],
       micStream.getAudioTracks()[0]
     ].filter(Boolean);
 
@@ -70,7 +69,7 @@ async function startRecording() {
     });
 
     await recorder.startRecording();
-    setStatus('Recording…');
+    setStatus('Tar opp innspillingen');
     startBtn.disabled = true;
     stopBtn.disabled = false;
 
@@ -83,14 +82,14 @@ async function startRecording() {
     }
   } catch (err) {
     console.error(err);
-    setStatus(`Error: ${err.message}`);
+    setStatus(`Feilmelding: ${err.message}`);
     cleanup();
   }
 }
 
 async function stopRecording() {
   try {
-    setStatus('Stopping…');
+    setStatus('Stopper');
     stopBtn.disabled = true;
 
     if (recorder) {
@@ -103,10 +102,10 @@ async function stopRecording() {
     }
   } catch (err) {
     console.error(err);
-    setStatus(`Error while stopping: ${err.message}`);
+    setStatus(`Feilmelding mens den stoppet: ${err.message}`);
   } finally {
     cleanup();
-    setStatus('Saved.');
+    setStatus('Lagret.');
   }
 }
 
