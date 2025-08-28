@@ -50,6 +50,7 @@ async function startRecording() {
     // 3) Combine the single screen video track with the microphone audio track.
     const tracks = [
       screenStream.getVideoTracks()[0],
+      screenStream.getAudioTracks()[0],
       micStream.getAudioTracks()[0]
     ].filter(Boolean);
 
