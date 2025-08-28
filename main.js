@@ -35,7 +35,7 @@ async function startRecording() {
     //    audio:false so we DO NOT capture system/tab audio. (Mic will come from getUserMedia.)
     screenStream = await navigator.mediaDevices.getDisplayMedia({
       video: { frameRate: 30 },
-      audio: false
+      audio: true
     });
 
     // 2) Ask for microphone (audio only, no webcam video).
