@@ -1,0 +1,27 @@
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: Praksis-server
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - server_uploads:/app/uploads
+      - server_db:/app/data
+
+  web:
+    image: nginx:alpine
+    container_name: Praksis-web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    depends_on:
+      - server
+
+volumes:
+  server_uploads:
+  server_db:
